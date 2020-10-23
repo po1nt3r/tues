@@ -17,6 +17,8 @@ for x in range(len(a)):
     else:
         print(str(a[x]) + "is not even")
 '''
+'''
+задача 3
 a = input('Enter a number: ')
 prime = True
 x = 1
@@ -34,4 +36,4 @@ while x < int(a):
         print('One is neither')
     
     x+=1
-    
+'''
