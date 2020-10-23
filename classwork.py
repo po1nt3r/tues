@@ -37,3 +37,21 @@ while x < int(a):
     
     x+=1
 '''
+'''
+задача 4
+
+не съм сигурен за формулата
+
+a = input('Enter a number: ')
+dogYear = 0
+x = 1
+while x < int(a):
+    if x < 3:
+        dogYear += 10.5
+    else:
+        dogYear += 4
+    
+    x+=1
+
+print(x, 'in dog years is', dogYear)    
+'''
