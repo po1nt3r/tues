@@ -22,15 +22,16 @@ prime = True
 x = 1
 while x < int(a):
     if x > 1:
-        for i in range(2, x//2):
+        for i in range(2, x//2+1):
             if (x % i) == 0:
                 prime = False
                 print(x, "is not a prime number")
                 break
 
-    if(prime == True):
-        print(x, ' is prime')
+        if(prime == True):
+            print(x, ' is prime')
     else:
         print('One is neither')
+    
     x+=1
     
