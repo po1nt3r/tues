@@ -1,0 +1,19 @@
+num = input("Enter a number: ")
+num = list(num)
+j = len(num)-1
+
+symmetrical = False
+if len(num) > 1:
+    for i in range(len(num)//2):
+        if num[i] == num[j]:
+            symmetrical = True
+        else:
+            symmetrical = False
+        j-=1
+
+    if symmetrical:
+        print(''.join(num), 'is symmetrical')
+    else:
+        print(''.join(num), 'is asymmetrical')
+else:
+    print('Single digit numbers are not symetrical neither asymmetrical')
