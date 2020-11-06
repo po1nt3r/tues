@@ -6,7 +6,6 @@ symmetrical = False
 
 if len(num) > 1:
     for i in range(len(num)//2):
-        print(num[i], num[j])
         if num[i] == num[j]:
             count += 1
         j-=1
