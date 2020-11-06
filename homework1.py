@@ -7,7 +7,7 @@ for i in range(2000, 5001):
     y = i
     z.clear()
     for j in range(4):
-        if ((y % 10) % 2) == 0:
+        if (((y % 10) % 2) == 0) and ((y % 10) != 0):
             x += 1
             z.append((y % 10))
         y //= 10
@@ -19,8 +19,8 @@ for i in range(2000, 5001):
                 print(z[j], end=',')
             else:
                 print(z[j])    
-'''
 
+'''
 '''
 n = input('How many numbers do you want to enter: ')
 z = []
@@ -37,17 +37,27 @@ for i in z:
 
 print(max - min)
 '''
-
 '''
 str = input('Enter a string: ')
+digit = 0
+letter = 0
+
+for i in range(len(str)):
+    if str[i].isdigit():
+        digit += 1
+    elif str[i].isalpha():
+        letter += 1
+
+print('Number of digits:', digit)
+print('Number of letters:', letter)
 y = ''
 
 str = list(str)
 str.sort()
 print(str)
 for i in range(len(str)):
-    print(i)
     if str[i] != y:
         print('\'', str[i], '\'', 'appears', str.count(str[i]), 'times in this string')
     y = str[i]
+input("Press 'Enter' to exit")
 '''
