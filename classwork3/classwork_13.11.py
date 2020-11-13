@@ -12,9 +12,7 @@ while j < len(a):
         if a[j] == i:
             for k in range(j, j+3):
                 a.insert(k, i)
-                print('lenth of a: ' , len(a))
             j += 3
-            print(j)
     j += 1
 a = ''.join(a)
 print(a)
