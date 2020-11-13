@@ -39,7 +39,19 @@ while num >= 2:
 print(num1,'->',count)
 '''
 #задача 4
-#finish later
+'''
 num = int(input("Enter a number: "))
 prime = True
-count = 0
+add = 0
+for i in range(2, num):
+    prime = True
+    for j in range(2,(i//2)+1):
+        if i % j == 0:
+            prime = False
+            break
+    if prime:
+        print(i)
+        add += i
+
+print(num,'->',add)
+'''
