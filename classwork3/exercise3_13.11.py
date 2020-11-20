@@ -1,10 +1,15 @@
 import math
 
-num = int(input("Enter a number: "))
-num1 = num
-count = 0
-while num >= 2:
-    num = math.sqrt(num)
-    count += 1
+def f(n):
+    num1 = n
+    i = 0
+    while num1 >= 2:
+        num1 = math.sqrt(num1)
+        i += 1
+    return i
 
-print(num1,'->',count)
+num = int(input("Enter a number: "))
+
+count = f(num)
+
+print(num,'->',count)
