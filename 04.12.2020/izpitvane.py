@@ -1,3 +1,5 @@
+print("Zadacha 1: ")
+
 a = input("Enter a number for a: ")
 b = input("Enter a number for b: ")
 c = input("Enter a number for c: ")
@@ -17,8 +19,9 @@ def is_equal(a, b, c):
         return False
 
 
-print(f"Zadacha 1: {is_equal(a, b, c)}")
+print(f"\n{is_equal(a, b, c)}\n")
 
+print("Zadacha 2: ")
 
 limit = int(input("Ogranichenie: "))
 distance = int(input("Razstoqnie koeto trqbva da bude izminato: "))
@@ -31,4 +34,4 @@ def speeding(limit, distance):
     return (time1 - time2)*60
 
 
-print("Excersise 2: %.2f minutes" % (speeding(limit, distance)))
+print("\n%.2f minutes\n" % (speeding(limit, distance)))
