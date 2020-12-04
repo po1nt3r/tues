@@ -23,8 +23,8 @@ print(f"\n{is_equal(a, b, c)}\n")
 
 print("Zadacha 2: ")
 
-limit = int(input("Ogranichenie: "))
-distance = int(input("Razstoqnie koeto trqbva da bude izminato: "))
+limit = int(input("Enter limit: "))
+distance = int(input("Enter distance: "))
 
 
 def speeding(limit, distance):
