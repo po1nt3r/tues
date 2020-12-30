@@ -1,5 +1,9 @@
 import pandas as pd
 
+#.csv файлът с покемоните го взех от github repository-то(https://github.com/KeithGalli/pandas/blob/master/pokemon_data.csv)
+# на човека, чийто tutorial за pandas гледах(https://www.youtube.com/watch?v=vmEHCJofslg&ab_channel=KeithGalli)
+#като цяло това, което програмата прави е, че user-a input-ва покемон елемент от изброените и след това всички покемони с този елемент биват записани в отделен .csv файл
+
 path = input("Enter the filepath of the csv file with the pokemons: ")
 
 data = pd.read_csv(path)
