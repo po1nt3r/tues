@@ -22,6 +22,7 @@ for i in range(9):
 
     if i >= 4:
         if checkWin(board):
+            drawBoard(board)
             print(f"Player{n+1} wins")
             break
 
