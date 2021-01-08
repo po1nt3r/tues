@@ -19,7 +19,7 @@ reveal = ["_" for i in range(len(string))]
 clear()
 
 char = ''
-while lives >= 0:
+while lives > 0:
     char = input("Enter a charachter: ")
     if char in string:
         check(string, reveal, char)
