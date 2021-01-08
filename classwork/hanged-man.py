@@ -1,15 +1,22 @@
-from os import  system
+from os import system, name 
 
 def check(string, reveal, char):
     for i in range(len(string)):
         if char == string[i]:
             reveal[i] = char
 
+def clear(): 
+   
+    if name == 'nt': 
+        _ = system('cls') 
+    else: 
+        _ = system('clear') 
+
 lives = 6
 string = list(input("Enter a word: "))
 reveal = ["_" for i in range(len(string))]
 
-_ = system("cls")
+clear()
 
 char = ''
 while lives >= 0:
