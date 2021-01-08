@@ -28,5 +28,8 @@ while lives >= 0:
     print(f"lives: {lives}, string: "+''.join(reveal))
 
     if reveal == string:
+        print("You have won.")
         break
 
+if lives == 0:
+    print("You have lost.")
