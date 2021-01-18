@@ -4,7 +4,7 @@ reest = ''
 
 while True:
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect((socket.gethostname(), 6969))
+    s.connect((socket.gethostname(), 1234))
     while True:
         str = input("Enter weather, time or airquality: ")
         s.send(bytes(str, 'utf-8'))   

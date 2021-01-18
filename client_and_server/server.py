@@ -5,7 +5,7 @@ t = time()
 t1 = ctime(t)
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.bind((socket.gethostname(), 6969))
+s.bind((socket.gethostname(), 1234))
 s.listen(5)
 
 while True:
