@@ -1,9 +1,6 @@
 import socket
 from time import time, ctime
 
-t = time()
-t1 = ctime(t)
-
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((socket.gethostname(), 1234))
 s.listen(5)
@@ -18,6 +15,8 @@ while True:
         if rcvdData == 'weather':
             c.send(bytes('sunny',"utf-8"))
         elif rcvdData == 'time':
+            t = time()
+            t1 = ctime(t)
             c.send(bytes(t1, 'utf-8'))
         elif rcvdData == 'airquality':
             c.send(bytes('very bad', 'utf-8')) 
