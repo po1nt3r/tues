@@ -1,4 +1,11 @@
 import socket
+import os
+
+def clear():
+    if os.name == 'nt':
+        _ = os.system('cls')
+    else:
+        _ = os.system('clear')
 
 reest = ''
 
@@ -6,17 +13,19 @@ while True:
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect((socket.gethostname(), 1234))
     while True:
-        str = input("Enter weather, time or airquality: ")
-        s.send(bytes(str, 'utf-8'))   
+        string = input("Type weather, time or airquality |if you want to exit type 'bye'|: ")
+        s.send(bytes(string, 'utf-8'))   
         return_value = s.recv(1024).decode('utf-8')
-        print("Server:", return_value)
 
-        if return_value == 'NaN':
+        print("\nServer: " + return_value + "\n")
+        input("Press any key to continue")
+        clear()
+        if return_value == 'over':
+            print("The connection is over!")
             s.close()
             break
-    print("Connection with the server has ended!")
-    reest = input("Do you want to reestablish the connection(y/n): ")
-    if reest == 'n':
+    reest = input("Type 1 to reestablish the connection: ")
+    if reest != '1':
         break
 
 print('Goodbye!')
