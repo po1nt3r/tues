@@ -16,10 +16,14 @@ while True:
 
     s.close()
 
-    print(decode_data2)
+    if userInput == 'weather':
+        print(decode_data2[0]['main'])
+    else:
+        print(decode_data2)
 
-    if input("Type 1 to reestablish the connection: ") != 1:
+    if input("Type 1 to reestablish the connection: ") != '1':
         break
+
 
 
     
