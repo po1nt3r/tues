@@ -45,6 +45,16 @@ class Client:
         else:
             print("Not a client")
 
+    def transfer_to_self(self, amount):
+        if(len(self.bank_account) >= 2):
+            print("Withdrow from:")
+            self.bank_account[self.choose_account()].balance -= amount
+            print("Deposit to:")
+            self.bank_account[self.choose_account()].balance += amount
+        else:
+            print("Not enough accounts")
+
+
 
 client1 = Client()
 client1.add_account(2500)
