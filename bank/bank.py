@@ -39,12 +39,11 @@ class Client:
             self.bank_accounts[a].balance -= amount
             self.bank_accounts[b].balance += amount
 
-    
     def deposit(self, amount):
         self.get_account()
-        a = int(input("Account to depostit to: "))-1
-        if not self.check_amount(amount, self.bank_accounts[a].balance):
-            b = int(input("Account to transfer from: "))-1
+        b = int(input("Account to depostit to: "))-1
+        if not self.check_amount(amount, self.bank_accounts[b].balance):
+            a = int(input("Account to transfer from: "))-1
             self.bank_accounts[a].balance += amount
             self.bank_accounts[b].balance -= amount
 
