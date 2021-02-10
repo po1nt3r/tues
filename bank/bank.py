@@ -14,58 +14,44 @@ class BankAccount:
         self.balance -= amount
 
     def get_balance(self):
-        #print(self.balance)
+        print(self.balance)
         return self.balance
 
 class Client:
     def __init__(self):
         self.id = random.randint(100000, 1000000)
-        self.bank_accounts = []
-
+        self.bank_account = []
+    
     def add_account(self, amount):
         a = BankAccount(amount)
-        self.bank_accounts.append(a)
-    
-    def check_amount(self, amount, balance):
-        if balance < amount:
-            print("You don't have enough money to complete the transaction!")
-            return False
+        self.bank_account.append(a)
 
-    def withdraw(self, amount):
-        self.get_account()
-        a = int(input("Account to withdraw from: "))-1
-        if self.check_amount(amount, self.bank_accounts[a].balance):
-            b = int(input("Account to transfer to: "))-1
-            self.bank_accounts[a].balance -= amount
-            self.bank_accounts[b].balance += amount
+    def print_accounts(self):
+        for i in range(len(self.bank_account)):
+            print(f"Account {i+1}: {self.bank_account[i].balance}")
 
-    def deposit(self, amount):
-        self.get_account()
-        b = int(input("Account to depostit to: "))-1
-        if not self.check_amount(amount, self.bank_accounts[b].balance):
-            a = int(input("Account to transfer from: "))-1
-            self.bank_accounts[a].balance += amount
-            self.bank_accounts[b].balance -= amount
+    def choose_account(self): 
+        self.print_accounts()
+        return int(input("Choose na account: "))-1
 
-    def transfer_to_self(self, amount, type = "withdraw"):
-        if len(self.bank_accounts) >= 2:
+    def transfer(self, c2, amount, type):
+        if isinstance(c2, Client):
             if type == "withdraw":
-                self.withdraw(amount)
-            elif type == "deposit":
-                self.deposit(amount)
+                self.bank_account[self.choose_account()].balance += amount
+                c2.bank_account[Client.choose_account(c2)].balance -= amount
+            else:
+                self.bank_account[self.choose_account()].balance -= amount
+                c2.bank_account[Client.choose_account(c2)].balance += amount
         else:
-            print("You have only one account.")
-
-    def get_account(self):
-        for i in range(len(self.bank_accounts)):
-            print(f"Money in account {i+1}:", self.bank_accounts[i].get_balance())
+            print("Not a client")
 
 
-cl = Client()
-cl.add_account(1200)
-cl.add_account(2200)
-cl.transfer_to_self(458444)
-cl.get_account()
-print("---------------------")
-cl.transfer_to_self(250, "deposit")
-cl.get_account()
+client1 = Client()
+client1.add_account(2500)
+
+client2 = Client()
+client2.add_account(2600)
+
+client1.transfer(client2, 350, "withdraw")
+client1.print_accounts()
+client2.print_accounts()
