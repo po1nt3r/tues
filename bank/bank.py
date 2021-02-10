@@ -34,7 +34,7 @@ class Client:
     def withdraw(self, amount):
         self.get_account()
         a = int(input("Account to withdraw from: "))-1
-        if not self.check_amount(amount, self.bank_accounts[a].balance):
+        if self.check_amount(amount, self.bank_accounts[a].balance):
             b = int(input("Account to transfer to: "))-1
             self.bank_accounts[a].balance -= amount
             self.bank_accounts[b].balance += amount
@@ -65,7 +65,7 @@ class Client:
 cl = Client()
 cl.add_account(1200)
 cl.add_account(2200)
-cl.transfer_to_self(250)
+cl.transfer_to_self(458444)
 cl.get_account()
 print("---------------------")
 cl.transfer_to_self(250, "deposit")
