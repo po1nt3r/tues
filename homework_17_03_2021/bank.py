@@ -2,7 +2,7 @@ import random
 import os
 import yaml
 
-alphabet = "abcdefghijklmnopqrstuvwxyz0123456789"
+alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
 PATH = "accounts.yaml"
 
 class BankAccount:
