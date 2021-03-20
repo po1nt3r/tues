@@ -3,61 +3,90 @@ import os
 import pickle
 import socket
 
-if os.path.exists("commands.json"):
-    with open("commands.json", "r") as fr:
-        command_dict = json.load(fr)
-else:
-    command_dict = {
-        "Commands": {}
-    }
+IP = "34.77.60.185"
+PORT = 8080
 
-index_dict = {
-    "time": 0,
-    "weather": 0,
-    "airquality": 0
-}
 
-keys = list(command_dict["Commands"])
-for i in range(len(keys)):
-    if "time" in keys[i]:
-        keys[i] = "time"
-    elif "weather" in keys[i]:
-        keys[i] = "weather"
-    else:
-        keys[i] = "airquality"
+class Client:
+    def __init__(self, ip, port):
+        self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.ip = ip
+        self.port = port
+        self.command = ""
+        self.data = ""
+        self.command_dict = self.make_dict()
+        self.index_dict = {
+            "time": 0,
+            "weather": 0,
+            "airquality": 0
+        }
+        self.catch_up()
 
-index_dict["time"] += keys.count("time")
-index_dict["weather"] += keys.count("weather")
-index_dict["airquality"] += keys.count("airquality")
+    def catch_up(self):
+        keys = list(self.command_dict["Commands"])
+        for i in range(len(keys)):
+            if "time" in keys[i]:
+                keys[i] = "time"
+            elif "weather" in keys[i]:
+                keys[i] = "weather"
+            else:
+                keys[i] = "airquality"
+        self.index_dict["time"] += keys.count("time")
+        self.index_dict["weather"] += keys.count("weather")
+        self.index_dict["airquality"] += keys.count("airquality")
 
-while True:
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect(("34.77.60.185", 8080))
+    def make_dict(self):
+        if os.path.exists("commands.json"):
+            with open("commands.json", "r") as fr:
+                command_dict = json.load(fr)
+            return command_dict
+        else:
+            command_dict = {
+                "Commands": {}
+            }
+            return command_dict
 
-    userInput = input("Enter 'time', 'weather' or 'airquality': ")
-    index_dict[userInput] += 1
+    def send_data(self):
+        self.command = input("Enter 'time', 'weather' or 'airquality': ")
+        self.s.send(pickle.dumps(self.command))
 
-    command = pickle.dumps(userInput)
-    s.send(command)
-    data = s.recv(1024)
+    def recv_data(self):
+        # Господине, pickle.dump()-нали сте информацията, която се връща 2 пъти
+        self.data = pickle.loads(pickle.loads(self.s.recv(1024)))
 
-    # Господине, pickle.dump()-нали сте информацията, която се връща 2 пъти
-    decode_data1 = pickle.loads(data)
-    decode_data2 = pickle.loads(decode_data1)
+    def est_connection(self):
+        self.s.connect((self.ip, self.port))
+        self.send_data()
+        self.recv_data()
+        self.s.close()
 
-    s.close()
+    def print_data(self):
+        if self.command != "weather":
+            print(self.data)
+            self.command_dict["Commands"][self.command + str(self.index_dict[self.command])] = self.data
+        else:
+            print(self.data[0]["main"])
+            self.command_dict["Commands"][self.command + str(self.index_dict[self.command])] = self.data[0]["main"]
 
-    if userInput != 'weather':
-        print(decode_data2)
-        command_dict["Commands"][userInput + str(index_dict[userInput])] = decode_data2
-    else:
-        print(decode_data2[0]['main'])
-        command_dict["Commands"][userInput + str(index_dict[userInput])] = decode_data2[0]['main']
+    def save_data(self):
+        with open("commands.json", "w") as fw:
+            json.dump(self.command_dict, fw, indent=4)
 
-    print(command_dict)
 
-    if input("Type 1 to reestablish the connection: ") != '1':
-        break
+def data_exchange(client1):
+    if not isinstance(client1, Client):
+        raise ValueError("Object not compatible")
 
-with open("commands.json", "w") as fw:
-    json.dump(command_dict, fw, indent=4)
+    while True:
+        if client1.s.fileno() == -1:
+            client1.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        client1.est_connection()
+        client1.print_data()
+        client1.save_data()
+
+        if input("Type 1 to reestablish the connection: ") != '1':
+            break
+
+
+client = Client(IP, PORT)
+data_exchange(client)
