@@ -148,9 +148,13 @@ options = parser.parse_args()
 PATH = options.filename
 client_list = []
 
+print("Create accounts")
 for _ in range(options.add_clients):
     new_client(client_list)
 
+clear_screen()
+
+print("Transaction")
 if options.transaction_properties:
     if options.transaction_type == 'deposit':
         transaction_pr = clients_for_transaction(client_list, options.transaction_properties)
