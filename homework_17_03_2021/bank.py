@@ -2,8 +2,9 @@ import random
 import os
 import yaml
 import argparse
+import uuid
+import os
 
-alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
 PATH = None
 
 def new_client(client_list):
@@ -25,6 +26,11 @@ def clients_for_transaction(client_list, transaction_properties):
     
     return transaction_pr      
             
+def clear_screen():
+    if os.name == 'posix':
+        _ = os.system('clear')
+    else:
+        _ = os.system('cls')
 
 class BankAccount:
     def __init__(self, balance):
@@ -59,9 +65,7 @@ class Client():
                 self.num_accounts = len(self.account_dict[self.id])
                 self.bank_accounts.extend(self.account_dict[self.id])
             else:
-                self.id = ''
-                for _ in range(0, 8):
-                    self.id += random.choice(alphabet)
+                self.id = str(uuid.uuid4())
                 self.add_bank_account(int(input("Enter balance: ")))
                 self.account_dict.update({self.id : [i for i in self.bank_accounts]})
                 with open("accounts.yaml", "a") as fw:
@@ -71,9 +75,7 @@ class Client():
             self.bank_accounts = []
             self.num_accounts = 0
             self.add_bank_account(int(input("Enter balance: ")))            
-            self.id = ""
-            for _ in range(0, 8):
-                self.id += random.choice(alphabet)            
+            self.id = str(uuid.uuid4())         
             self.account_dict = {self.id:[i for i in self.bank_accounts]}
             print(self.account_dict)
             self.write_file()
@@ -136,10 +138,11 @@ parser.add_argument("-f", action="store", dest="filename", required=True,
                     help="Path to yaml file.")
 parser.add_argument("-ac", action="store", dest="add_clients", type=int, required=True,
                     help="Number of clients to be added.")
-parser.add_argument("-t", action="store", dest="transaction_type", help="Deposit or withdraw",
+parser.add_argument("-t", action="store", dest="transaction_type", help="deposit - deposit to client1, withdraw from client2 |\
+                    withdraw - withdraw from client1, deposit to client 2 | default is deposit",
                     default="deposit")
-parser.add_argument("-op", action="store", dest="transaction_properties", nargs=3, required=True,
-                    help="id of client to withdraw/deposit | id of client to withdraw/deposit | amount")
+parser.add_argument("-op", action="store", dest="transaction_properties", nargs=3, default = None,
+                    help="id of client to withdraw/deposit (you) | id of client to withdraw/deposit | amount")
 
 options = parser.parse_args()
 PATH = options.filename
@@ -148,9 +151,29 @@ client_list = []
 for _ in range(options.add_clients):
     new_client(client_list)
 
-for i in range(options.add_clients):
-    print(client_list[i].id)
-    client_list[i].print_acc() 
+if options.transaction_properties:
+    if options.transaction_type == 'deposit':
+        transaction_pr = clients_for_transaction(client_list, options.transaction_properties)
+        transaction_pr[0].transfer(transaction_pr[1], transaction_pr[2])
+    else:
+        transaction_pr = clients_for_transaction(client_list, options.transaction_properties)
+        transaction_pr[0].transfer(transaction_pr[1], transaction_pr[2], operation="withdraw")
+else:
+    transaction_type = input("Enter transaction type: ")
+    for i in client_list:
+            print(i.id)
+    if transaction_type == 'deposit':
+        transaction_pr = clients_for_transaction(client_list, [input("ID of user to which to deposit"), 
+                                                               input("ID of user from which to withdraw"),
+                                                               int(input("Amount for transaction"))])
+        clear_screen()
+        transaction_pr[0].transfer(transaction_pr[1], transaction_pr[2])
+    else:
+        transaction_pr = clients_for_transaction(client_list, [input("ID of user to which to withdraw"), 
+                                                               input("ID of user from which to deposit"),
+                                                               int(input("Amount for transaction"))]) 
+        clear_screen()
+        transaction_pr[0].transfer(transaction_pr[1], transaction_pr[2], operation="withdraw")
 
-transaction_pr = clients_for_transaction(client_list, options.transaction_properties)
-transaction_pr[0].transfer(transaction_pr[1], transaction_pr[2])
+    
+
