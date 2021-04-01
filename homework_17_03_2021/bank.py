@@ -154,7 +154,3 @@ for i in range(options.add_clients):
 
 transaction_pr = clients_for_transaction(client_list, options.transaction_properties)
 transaction_pr[0].transfer(transaction_pr[1], transaction_pr[2])
-
-
-
-# client1.transfer(client2, 250)
