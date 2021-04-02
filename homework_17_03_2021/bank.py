@@ -138,11 +138,11 @@ parser.add_argument("-f", action="store", dest="filename", required=True,
                     help="Path to yaml file.")
 parser.add_argument("-a", action="store", dest="add_clients", type=int, required=True,
                     help="Number of clients to be added.")
-parser.add_argument("-t", action="store", dest="transaction_type", help="deposit - deposit to client1, withdraw from client2 |\
+parser.add_argument("-t", action="store", dest="transaction_type", help="/optional/ deposit - deposit to client1, withdraw from client2 |\
                     withdraw - withdraw from client1, deposit to client 2 | default is deposit",
                     default="deposit")
 parser.add_argument("-o", action="store", dest="transaction_properties", nargs=3, default = None,
-                    help="id of client to withdraw/deposit (you) | id of client to withdraw/deposit | amount")
+                    help="/optional/ id of client to withdraw/deposit (you) | id of client to withdraw/deposit | amount")
 
 options = parser.parse_args()
 PATH = options.filename
@@ -173,8 +173,8 @@ else:
         clear_screen()
         transaction_pr[0].transfer(transaction_pr[1], transaction_pr[2])
     else:
-        transaction_pr = clients_for_transaction(client_list, [input("ID of user to which to withdraw"), 
-                                                               input("ID of user from which to deposit"),
+        transaction_pr = clients_for_transaction(client_list, [input("ID of user from which to withdraw"), 
+                                                               input("ID of user to which to deposit"),
                                                                int(input("Amount for transaction"))]) 
         clear_screen()
         transaction_pr[0].transfer(transaction_pr[1], transaction_pr[2], operation="withdraw")
