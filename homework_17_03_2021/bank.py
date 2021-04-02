@@ -136,12 +136,12 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument("-f", action="store", dest="filename", required=True,
                     help="Path to yaml file.")
-parser.add_argument("-ac", action="store", dest="add_clients", type=int, required=True,
+parser.add_argument("-a", action="store", dest="add_clients", type=int, required=True,
                     help="Number of clients to be added.")
 parser.add_argument("-t", action="store", dest="transaction_type", help="deposit - deposit to client1, withdraw from client2 |\
                     withdraw - withdraw from client1, deposit to client 2 | default is deposit",
                     default="deposit")
-parser.add_argument("-op", action="store", dest="transaction_properties", nargs=3, default = None,
+parser.add_argument("-o", action="store", dest="transaction_properties", nargs=3, default = None,
                     help="id of client to withdraw/deposit (you) | id of client to withdraw/deposit | amount")
 
 options = parser.parse_args()
