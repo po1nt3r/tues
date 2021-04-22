@@ -15,29 +15,38 @@ def get_folders(link, soup):
     extension = ['.py', '.md']
     for _ in range(len(soup.find_all("div", {"class": "Box-row Box-row--focus-gray py-2 d-flex position-relative js-navigation-item"}))):
         item = div.find('a', class_="js-navigation-open Link--primary").text
-        if item[-3:-1] not in extension:
+        if item[-3::] not in extension:
             folders.append(item)
-            os.mkdir(f"github_repo/{ folders[j] }")
-            get_files(link, folders[j])
+            os.mkdir(f"github_repo/{folders[j]}")
+            get_files(link, folders[j], extension=extension)
             j += 1
         else:
-            get_files(link, item)
+            get_files(link, item=item)
         div = div.find_next_sibling()
         
-    
-def get_files(link, folder):
-    file_link = link + folder
+def get_files(link, folder=None, item=None, extension=None):
+    if folder:
+        file_link = link + folder
+    elif item:
+        file_link = link + item
     file_source = requests.get(file_link).text
     file_soup = BeautifulSoup(file_source, "html.parser")
     
     try:
         div = file_soup.find('div', class_ = "Box-row Box-row--focus-gray py-2 d-flex position-relative js-navigation-item")
         for _ in range(len(soup.find_all("div", {"class": "Box-row Box-row--focus-gray py-2 d-flex position-relative js-navigation-item"}))):
-            filename = div.find('a', class_="js-navigation-open Link--primary").text            
-            file_link = "https://raw.githubusercontent.com/AlekoGeorgiev/tues/main/" + folder + "/" + filename
+            if folder:
+                filename = div.find('a', class_="js-navigation-open Link--primary").text 
+                location = folder + "/" + filename
+                if filename[-3::] not in extension:
+                    break
+                file_link = "https://raw.githubusercontent.com/AlekoGeorgiev/tues/main/" + location
+            elif item:
+                location = item
+                file_link = "https://raw.githubusercontent.com/AlekoGeorgiev/tues/main/" + item
             print(file_link)
             r = requests.get(file_link)
-            with open(f"github_repo/{ folder }/{ filename }", "wb") as f:
+            with open(f"github_repo/{location}", "wb") as f:
                 for i in r.iter_content(chunk_size=8192):
                     f.write(i)
             div = div.find_next_sibling()
