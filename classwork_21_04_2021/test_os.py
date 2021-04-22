@@ -39,7 +39,7 @@ def get_files(link, folder=None, item=None, extension=None):
                 filename = div.find('a', class_="js-navigation-open Link--primary").text 
                 location = folder + "/" + filename
                 if filename[-3::] not in extension:
-                    break
+                    continue
                 file_link = "https://raw.githubusercontent.com/AlekoGeorgiev/tues/main/" + location
             elif item:
                 location = item
