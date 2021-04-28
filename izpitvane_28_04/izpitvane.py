@@ -15,7 +15,6 @@ class Files:
         for i in self.file_list:
             with open(i, "r") as fr:
                 text = fr.read()
-                text = text.split(" ")
                 count += text.count(word)
         
         return count
